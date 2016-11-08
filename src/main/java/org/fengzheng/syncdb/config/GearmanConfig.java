@@ -9,26 +9,34 @@ import org.gearman.worker.GearmanWorker;
 import org.gearman.worker.GearmanWorkerImpl;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
+import org.springframework.scheduling.annotation.Async;
+import org.springframework.scheduling.annotation.AsyncResult;
+import org.springframework.stereotype.Component;
+
+import java.util.concurrent.Future;
 
 /**
  * Created by Tibers on 16/11/6.
  */
-@Configuration
+@Component
 public class GearmanConfig {
     private static final Log _logger = LogFactory.getLog(GearmanConfig.class);
     @Value("${gear.man.host}")
     private String gearManHost;
 
     @Bean
+    @Async
     public GearmanWorker init() {
-        _logger.info("init server...");
+        _logger.info("Initializing GearMan");
         GearmanWorker worker = new GearmanWorkerImpl();
         GearmanNIOJobServerConnection conn = new GearmanNIOJobServerConnection(gearManHost, Constants.GEARMAN_DEFAULT_TCP_PORT);
         worker.addServer(conn);
         worker.registerFunction(GearManWork.class);
         worker.work();
-        _logger.info("init success....");
+        if(!worker.isRunning()){
+            _logger.info("Initializing error");
+            System.exit(1);
+        }
         return worker;
     }
 }

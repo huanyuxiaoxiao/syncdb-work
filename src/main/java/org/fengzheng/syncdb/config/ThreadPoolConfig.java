@@ -23,7 +23,7 @@ public class ThreadPoolConfig {
         executor.setCorePoolSize(coreSize);
         executor.setMaxPoolSize(maxSize);
         executor.setKeepAliveSeconds(keepAlive);
-        executor.setThreadGroupName("syncdb");
+        executor.setThreadNamePrefix("syncdb");
         executor.initialize();
         return executor;
 

@@ -1,5 +1,7 @@
 package org.fengzheng.syncdb.config;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -11,6 +13,7 @@ import redis.clients.jedis.JedisPoolConfig;
  */
 @Configuration
 public class JedisConfig {
+    private final Log _logger = LogFactory.getLog(JedisConfig.class);
     @Value("${redis.host}")
     private String host;
     @Value("${redis.port}")
@@ -35,8 +38,10 @@ public class JedisConfig {
 
     @Bean
     public JedisPool initPool() {
+        _logger.info("Initializing Jedis");
         JedisPoolConfig config = iniConfig();
         JedisPool jedisPool = new JedisPool(config, host, port, timeout, password, database);
+        _logger.info("Initializing Jedis 'Jedis'");
         return jedisPool;
     }
 }
