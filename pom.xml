@@ -1,20 +1,18 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
-
-    <groupId>org.fengzheng.syncdb</groupId>
-    <artifactId>syncdb-work</artifactId>
-    <version>1.0-SNAPSHOT</version>
+    <parent>
+        <groupId>cn.com.hong5</groupId>
+        <artifactId>hwlm-project</artifactId>
+        <version>0.0.1-SNAPSHOT</version>
+        <relativePath>../../software/hwlm-project/pom.xml</relativePath>
+    </parent>
+    <artifactId>hwlm-syncdb</artifactId>
     <packaging>jar</packaging>
-
-    <name>syncdb-work</name>
+    <name>hwlm-syncdb</name>
     <url>http://maven.apache.org</url>
 
     <properties>
-        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <java.version>1.8</java.version>
-        <spring.boot.version>1.4.0.RELEASE</spring.boot.version>
-        <junit.version>3.8.1</junit.version>
         <gearman.version>0.6</gearman.version>
     </properties>
 
@@ -23,19 +21,16 @@
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-test</artifactId>
-            <version>${spring.boot.version}</version>
             <scope>test</scope>
         </dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter</artifactId>
-            <version>${spring.boot.version}</version>
         </dependency>
+        <!--mongodb-->
         <dependency>
-            <groupId>junit</groupId>
-            <artifactId>junit</artifactId>
-            <version>${junit.version}</version>
-            <scope>test</scope>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-data-mongodb</artifactId>
         </dependency>
         <dependency>
             <groupId>org.gearman</groupId>
@@ -75,17 +70,22 @@
             <artifactId>fastjson</artifactId>
             <version>1.2.17</version>
         </dependency>
-        <!--jedis-->
         <dependency>
-            <groupId>redis.clients</groupId>
-            <artifactId>jedis</artifactId>
-            <version>2.9.0</version>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+            <version>1.16.10</version>
         </dependency>
-        <!--kryo-->
+        <!--引用api-->
         <dependency>
-            <groupId>com.esotericsoftware.kryo</groupId>
-            <artifactId>kryo</artifactId>
-            <version>2.21</version>
+            <groupId>cn.com.hong5</groupId>
+            <artifactId>hwlm-api</artifactId>
+            <version>0.0.1-SNAPSHOT</version>
+            <exclusions>
+                <exclusion>
+                    <groupId>tk.mybatis</groupId>
+                    <artifactId>mapper-spring-boot-starter</artifactId>
+                </exclusion>
+            </exclusions>
         </dependency>
     </dependencies>
     <build>
@@ -95,12 +95,66 @@
                 <artifactId>spring-boot-maven-plugin</artifactId>
             </plugin>
             <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
+                <version>3.1</version>
                 <configuration>
                     <source>${java.version}</source>
                     <target>${java.version}</target>
                     <encoding>${project.build.sourceEncoding}</encoding>
                 </configuration>
+            </plugin>
+            <!--打包配置-->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-jar-plugin</artifactId>
+                <version>2.4</version>
+                <!-- The configuration of the plugin -->
+                <configuration>
+                    <!-- Configuration of the archiver -->
+                    <archive>
+                        <!--
+                            生成的jar中，不要包含pom.xml和pom.properties这两个文件
+                        -->
+                        <addMavenDescriptor>false</addMavenDescriptor>
+                        <!-- Manifest specific configuration -->
+                        <manifest>
+                            <!--
+                                是否要把第三方jar放到manifest的classpath中
+                            -->
+                            <addClasspath>true</addClasspath>
+                            <!--
+                               生成的manifest中classpath的前缀，因为要把第三方jar放到lib目录下，所以classpath的前缀是lib/
+                           -->
+                            <classpathPrefix>lib/</classpathPrefix>
+                            <!--
+                                应用的main class
+                            -->
+                            <mainClass>cn.com.hong5.syncdb.Main</mainClass>
+                        </manifest>
+                    </archive>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-assembly-plugin</artifactId>
+                <version>2.4</version>
+                <!-- The configuration of the plugin -->
+                <configuration>
+                    <!-- Specifies the configuration file of the assembly plugin -->
+                    <descriptors>
+                        <descriptor>src/main/assembly/package.xml</descriptor>
+                    </descriptors>
+                </configuration>
+                <executions>
+                    <execution>
+                        <id>make-assembly</id>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>single</goal>
+                        </goals>
+                    </execution>
+                </executions>
             </plugin>
         </plugins>
     </build>

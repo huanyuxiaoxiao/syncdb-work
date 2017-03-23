@@ -1,9 +1,8 @@
-package org.fengzheng.syncdb;
+package cn.com.hong5.syncdb;
 
+import cn.com.hong5.syncdb.util.ApplicationUtil;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.fengzheng.syncdb.config.GearmanConfig;
-import org.fengzheng.syncdb.util.ApplicationUtil;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.autoconfigure.SpringBootApplication;

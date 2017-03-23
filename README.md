@@ -1,3 +1,3 @@
-使用Redis作为mysql的读写分离
+使用mongodb作为mysql的读写分离
 gearman的work端
-从Gearman中读取mysql触发器发送的修改后数据,写入到Redis中
+从Gearman中读取mysql触发器发送的修改后数据,写入到mongodb中

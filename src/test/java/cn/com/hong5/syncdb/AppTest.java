@@ -1,4 +1,4 @@
-package org.fengzheng.syncdb;
+package cn.com.hong5.syncdb;
 
 import junit.framework.Test;
 import junit.framework.TestCase;

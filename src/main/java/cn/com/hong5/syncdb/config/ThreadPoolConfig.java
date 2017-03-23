@@ -1,4 +1,4 @@
-package org.fengzheng.syncdb.config;
+package cn.com.hong5.syncdb.config;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
@@ -20,6 +20,7 @@ public class ThreadPoolConfig {
     @Bean(name = "taskExecutor")
     public ThreadPoolTaskExecutor initPool() {
         ThreadPoolTaskExecutor executor = new ThreadPoolTaskExecutor();
+        executor.setQueueCapacity(100);
         executor.setCorePoolSize(coreSize);
         executor.setMaxPoolSize(maxSize);
         executor.setKeepAliveSeconds(keepAlive);

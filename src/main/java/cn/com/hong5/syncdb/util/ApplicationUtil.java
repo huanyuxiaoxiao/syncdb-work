@@ -1,4 +1,4 @@
-package org.fengzheng.syncdb.util;
+package cn.com.hong5.syncdb.util;
 
 import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.BeanInitializationException;

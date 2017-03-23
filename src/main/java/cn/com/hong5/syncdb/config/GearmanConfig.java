@@ -1,8 +1,8 @@
-package org.fengzheng.syncdb.config;
+package cn.com.hong5.syncdb.config;
 
+import cn.com.hong5.syncdb.gearman.GearManWork;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.fengzheng.syncdb.gearman.GearManWork;
 import org.gearman.common.Constants;
 import org.gearman.common.GearmanNIOJobServerConnection;
 import org.gearman.worker.GearmanWorker;
@@ -10,10 +10,7 @@ import org.gearman.worker.GearmanWorkerImpl;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.scheduling.annotation.Async;
-import org.springframework.scheduling.annotation.AsyncResult;
 import org.springframework.stereotype.Component;
-
-import java.util.concurrent.Future;
 
 /**
  * Created by Tibers on 16/11/6.

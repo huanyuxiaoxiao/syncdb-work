@@ -1,10 +1,9 @@
-package org.fengzheng.syncdb.glob;
+package cn.com.hong5.syncdb.glob;
 
-import org.fengzheng.syncdb.handle.SyncHandle;
-import org.fengzheng.syncdb.util.ApplicationUtil;
+import cn.com.hong5.syncdb.handle.SyncHandle;
+import cn.com.hong5.syncdb.util.ApplicationUtil;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
-import redis.clients.jedis.JedisPool;
 
 import java.util.concurrent.ArrayBlockingQueue;
 
@@ -15,7 +14,6 @@ import java.util.concurrent.ArrayBlockingQueue;
 public class GlobTask {
     private static final GlobTask GLOB_TASK = new GlobTask();
     private ThreadPoolTaskExecutor taskExecutor = ApplicationUtil.getBean(ThreadPoolTaskExecutor.class);
-    private JedisPool jedisPool = ApplicationUtil.getBean(JedisPool.class);
     private ArrayBlockingQueue<byte[]> message = new ArrayBlockingQueue<>(999);
 
     private GlobTask() {
@@ -27,7 +25,7 @@ public class GlobTask {
 
     public void addTask(byte[] data) {
         message.add(data);
-        taskExecutor.execute(new SyncHandle(jedisPool));
+        taskExecutor.execute(new SyncHandle());
 
     }
 

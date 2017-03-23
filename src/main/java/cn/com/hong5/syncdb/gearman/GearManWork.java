@@ -1,8 +1,8 @@
-package org.fengzheng.syncdb.gearman;
+package cn.com.hong5.syncdb.gearman;
 
+import cn.com.hong5.syncdb.glob.GlobTask;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.fengzheng.syncdb.glob.GlobTask;
 import org.gearman.client.GearmanJobResult;
 import org.gearman.client.GearmanJobResultImpl;
 import org.gearman.util.ByteUtils;
@@ -13,7 +13,7 @@ import org.gearman.worker.AbstractGearmanFunction;
  */
 public class GearManWork extends AbstractGearmanFunction {
     private final Log _logger = LogFactory.getLog(GearManWork.class);
-    private final String name = "syncToRedis";
+    private final String name = "syncToMongodb";
     private final String resultMessage = "success";
 
     @Override
